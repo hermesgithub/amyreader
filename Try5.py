@@ -23,6 +23,10 @@ usedrowsrange = used_rows_from + ':' + used_rows_to
 mock_reading_raw = input('Which cell of the excel file is your original mock in? ')
 mock_reading = (sheet_ranges.cell(mock_reading_raw).value)
 
+end_user_col = input('Which column of the microtitre plate is your last sample in? (Just a single number please) ')
+end_user_col_int = int(end_user_col)
+end_user_col_taper = -(-end_user_col_int)
+
 assay_time_input = input('How many minutes was your assay for? ')
 assay_time = int(assay_time_input)
 
@@ -35,20 +39,22 @@ originlist = []
 for row in ws.range(usedrowsrange):
     for cell in row:
         originlist.append(cell.value)
-print('\n')
-print(originlist)
-originlist_array = numpy.array(originlist)
+originlist = list(range(1, 25))
+end_user_col_taper = 12-end_user_col_int
+originlistslice = originlist[0:end_user_col_taper]
+
+originlist_array = numpy.array(originlistslice)
 
 minus_mock = originlist_array-mock_reading
 print(minus_mock)
-by_time1 = minus_mock/assay_time
-print(by_time1)
-by_dilution1 = by_time1*dilution_cells
-print(by_time1)
-by_30ul1 = by_dilution1/30
+by_time = minus_mock/assay_time
+print(by_time)
+by_dilution = by_time*dilution_cells
+print(by_time)
+by_30ul = by_dilution/30
 print(by_30ul1)
-into_ml1 = by_30ul1*1000
-print(into_ml1)
+into_ml = by_30ul1*1000
+print(into_ml)
 
 
 #fig = p.figure()
