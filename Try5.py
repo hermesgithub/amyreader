@@ -12,6 +12,14 @@ ws = wb.get_active_sheet()
 dest_filename = input('What would you like to name the output file? ') + '.xlsx'
 sheet_ranges = wb.get_sheet_by_name(name = 'range names')
 
+used_rows = input('Which rows of the microtitre plate are your samples in? (write seperated by spaces)')
+used_rows_list = used_rows.split()
+used_rows_start = used_rows_list[0]
+used_rows_end = used_rows_list[-1]
+used_rows_from = used_rows_start + '1'
+used_rows_to = used_rows_end + '3'
+usedrowsrange = used_rows_from + ':' + used_rows_to
+
 mock_reading_raw = input('Which cell of the excel file is your original mock in? ')
 mock_reading = (sheet_ranges.cell(mock_reading_raw).value)
 
@@ -24,7 +32,7 @@ dilution_cells = int(dilution_cells_input)
 sheet_ranges = wb.get_sheet_by_name(name = 'range names')
 
 originlist = []
-for row in ws.range('A1:C2'):
+for row in ws.range(usedrowsrange):
     for cell in row:
         originlist.append(cell.value)
 print('\n')
@@ -43,19 +51,19 @@ into_ml1 = by_30ul1*1000
 print(into_ml1)
 
 
-fig = p.figure()
-ax = fig.add_subplot(1,1,1)
-x = [1,2,3,4,5,6]
-y = originlist_array
-ax.bar(x,y,facecolor='#777777', align='center')
-ax.set_ylabel('Secretion')
-ax.set_title('Sample Secretions',fontstyle='italic')
-ax.set_xticks(x)
-group_labels = range(1-96)
-ax.set_xticklabels(group_labels)
-fig.autofmt_xdate()
-ax.set_ylim([0,50])
-p.show()
+#fig = p.figure()
+#ax = fig.add_subplot(1,1,1)
+#x = [1,2,3,4,5,6]
+#y = originlist_array
+#ax.bar(x,y,facecolor='#777777', align='center')
+#ax.set_ylabel('Secretion')
+#ax.set_title('Sample Secretions',fontstyle='italic')
+#ax.set_xticks(x)
+#group_labels = range(1-3)
+#ax.set_xticklabels(group_labels)
+#fig.autofmt_xdate()
+#ax.set_ylim([0,50])
+#p.show()
 
 
 
